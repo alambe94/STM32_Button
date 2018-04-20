@@ -2605,7 +2605,7 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* i2cHandle)
  8001078:	40021000 	.word	0x40021000
 
 0800107c <My_Button_X_Callback>:
-  HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+	HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
 }
 
 /* USER CODE BEGIN 4 */
@@ -2615,15 +2615,15 @@ void My_Button_X_Callback(uint8_t Clicked_Count)
  800107e:	4604      	mov	r4, r0
 	char temp[5];
 	//ssd1306_Fill(Black);
-  	ssd1306_SetCursor(0, 30);
+	ssd1306_SetCursor(0, 30);
  8001080:	211e      	movs	r1, #30
  8001082:	2000      	movs	r0, #0
  8001084:	f000 f9e8 	bl	8001458 <ssd1306_SetCursor>
-    itoa(Clicked_Count,temp,10);
+	itoa(Clicked_Count, temp, 10);
  8001088:	4620      	mov	r0, r4
 	ssd1306_WriteString("BTN_X:", Font_11x18, White);
  800108a:	4c0a      	ldr	r4, [pc, #40]	; (80010b4 <My_Button_X_Callback+0x38>)
-    itoa(Clicked_Count,temp,10);
+	itoa(Clicked_Count, temp, 10);
  800108c:	4669      	mov	r1, sp
  800108e:	220a      	movs	r2, #10
  8001090:	f000 fac6 	bl	8001620 <itoa>
@@ -2652,18 +2652,18 @@ void My_Button_Y_Callback(uint8_t Clicked_Count)
  80010bc:	b513      	push	{r0, r1, r4, lr}
 	char temp[5];
 	//ssd1306_Fill(Black);
-  	ssd1306_SetCursor(0, 0);
+	ssd1306_SetCursor(0, 0);
  80010be:	2100      	movs	r1, #0
 {
  80010c0:	4604      	mov	r4, r0
-  	ssd1306_SetCursor(0, 0);
+	ssd1306_SetCursor(0, 0);
  80010c2:	4608      	mov	r0, r1
  80010c4:	f000 f9c8 	bl	8001458 <ssd1306_SetCursor>
-    itoa(Clicked_Count,temp,10);
+	itoa(Clicked_Count, temp, 10);
  80010c8:	4620      	mov	r0, r4
 	ssd1306_WriteString("BTN_Y:", Font_11x18, White);
  80010ca:	4c0a      	ldr	r4, [pc, #40]	; (80010f4 <My_Button_Y_Callback+0x38>)
-    itoa(Clicked_Count,temp,10);
+	itoa(Clicked_Count, temp, 10);
  80010cc:	4669      	mov	r1, sp
  80010ce:	220a      	movs	r2, #10
  80010d0:	f000 faa6 	bl	8001620 <itoa>
@@ -2690,69 +2690,69 @@ void My_Button_Y_Callback(uint8_t Clicked_Count)
  80010fc:	4770      	bx	lr
 
 080010fe <SystemClock_Config>:
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+	RCC_OscInitStruct.HSEState = RCC_HSE_ON;
  80010fe:	f44f 3380 	mov.w	r3, #65536	; 0x10000
 {
  8001102:	b510      	push	{r4, lr}
  8001104:	b090      	sub	sp, #64	; 0x40
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
  8001106:	2201      	movs	r2, #1
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+	RCC_OscInitStruct.HSEState = RCC_HSE_ON;
  8001108:	9307      	str	r3, [sp, #28]
-  RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+	RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
  800110a:	2100      	movs	r1, #0
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
  800110c:	2402      	movs	r4, #2
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
  800110e:	930e      	str	r3, [sp, #56]	; 0x38
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+	RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
  8001110:	f44f 13e0 	mov.w	r3, #1835008	; 0x1c0000
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
  8001114:	a806      	add	r0, sp, #24
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
  8001116:	9206      	str	r2, [sp, #24]
-  RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+	RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
  8001118:	9108      	str	r1, [sp, #32]
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+	RCC_OscInitStruct.HSIState = RCC_HSI_ON;
  800111a:	920a      	str	r2, [sp, #40]	; 0x28
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
  800111c:	940d      	str	r4, [sp, #52]	; 0x34
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+	RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
  800111e:	930f      	str	r3, [sp, #60]	; 0x3c
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
  8001120:	f7ff fbe6 	bl	80008f0 <HAL_RCC_OscConfig>
  8001124:	b100      	cbz	r0, 8001128 <SystemClock_Config+0x2a>
  8001126:	e7fe      	b.n	8001126 <SystemClock_Config+0x28>
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
  8001128:	230f      	movs	r3, #15
  800112a:	9301      	str	r3, [sp, #4]
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
  800112c:	f44f 6380 	mov.w	r3, #1024	; 0x400
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
  8001130:	9003      	str	r0, [sp, #12]
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
  8001132:	9005      	str	r0, [sp, #20]
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
  8001134:	4621      	mov	r1, r4
  8001136:	a801      	add	r0, sp, #4
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
  8001138:	9402      	str	r4, [sp, #8]
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
  800113a:	9304      	str	r3, [sp, #16]
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
  800113c:	f7ff fda0 	bl	8000c80 <HAL_RCC_ClockConfig>
  8001140:	4604      	mov	r4, r0
  8001142:	b100      	cbz	r0, 8001146 <SystemClock_Config+0x48>
  8001144:	e7fe      	b.n	8001144 <SystemClock_Config+0x46>
-  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
+	HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);
  8001146:	f7ff fe3f 	bl	8000dc8 <HAL_RCC_GetHCLKFreq>
  800114a:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
  800114e:	fbb0 f0f3 	udiv	r0, r0, r3
  8001152:	f7ff f889 	bl	8000268 <HAL_SYSTICK_Config>
-  HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
+	HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
  8001156:	2004      	movs	r0, #4
  8001158:	f7ff f89c 	bl	8000294 <HAL_SYSTICK_CLKSourceConfig>
-  HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+	HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
  800115c:	4622      	mov	r2, r4
  800115e:	4621      	mov	r1, r4
  8001160:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
@@ -2764,33 +2764,33 @@ void My_Button_Y_Callback(uint8_t Clicked_Count)
 0800116c <main>:
 {
  800116c:	b508      	push	{r3, lr}
-  HAL_Init();
+	HAL_Init();
  800116e:	f7ff f811 	bl	8000194 <HAL_Init>
-  SystemClock_Config();
+	SystemClock_Config();
  8001172:	f7ff ffc4 	bl	80010fe <SystemClock_Config>
-  MX_GPIO_Init();
+	MX_GPIO_Init();
  8001176:	f7ff ff03 	bl	8000f80 <MX_GPIO_Init>
-  MX_I2C1_Init();
+	MX_I2C1_Init();
  800117a:	f7ff ff39 	bl	8000ff0 <MX_I2C1_Init>
-  My_Button_X=Button_Attach(GPIO_PIN_9,GPIOB,0,My_Button_X_Callback);
+	My_Button_X = Button_Attach(GPIO_PIN_9, GPIOB, 0, My_Button_X_Callback);
  800117e:	4b0f      	ldr	r3, [pc, #60]	; (80011bc <main+0x50>)
  8001180:	2200      	movs	r2, #0
  8001182:	490f      	ldr	r1, [pc, #60]	; (80011c0 <main+0x54>)
  8001184:	f44f 7000 	mov.w	r0, #512	; 0x200
  8001188:	f7ff fe9a 	bl	8000ec0 <Button_Attach>
  800118c:	4b0d      	ldr	r3, [pc, #52]	; (80011c4 <main+0x58>)
-  My_Button_Y=Button_Attach(GPIO_PIN_5,GPIOA,1,My_Button_Y_Callback);
+	My_Button_Y = Button_Attach(GPIO_PIN_5, GPIOA, 1, My_Button_Y_Callback);
  800118e:	2201      	movs	r2, #1
  8001190:	490d      	ldr	r1, [pc, #52]	; (80011c8 <main+0x5c>)
-  My_Button_X=Button_Attach(GPIO_PIN_9,GPIOB,0,My_Button_X_Callback);
+	My_Button_X = Button_Attach(GPIO_PIN_9, GPIOB, 0, My_Button_X_Callback);
  8001192:	7018      	strb	r0, [r3, #0]
-  My_Button_Y=Button_Attach(GPIO_PIN_5,GPIOA,1,My_Button_Y_Callback);
+	My_Button_Y = Button_Attach(GPIO_PIN_5, GPIOA, 1, My_Button_Y_Callback);
  8001194:	4b0d      	ldr	r3, [pc, #52]	; (80011cc <main+0x60>)
  8001196:	2020      	movs	r0, #32
  8001198:	f7ff fe92 	bl	8000ec0 <Button_Attach>
  800119c:	4b0c      	ldr	r3, [pc, #48]	; (80011d0 <main+0x64>)
  800119e:	7018      	strb	r0, [r3, #0]
-  ssd1306_Init();
+	ssd1306_Init();
  80011a0:	f000 f870 	bl	8001284 <ssd1306_Init>
 	ssd1306_Fill(Black);
  80011a4:	2000      	movs	r0, #0
@@ -2801,7 +2801,7 @@ void My_Button_Y_Callback(uint8_t Clicked_Count)
  80011ae:	f000 f953 	bl	8001458 <ssd1306_SetCursor>
 	ssd1306_UpdateScreen();
  80011b2:	f000 f839 	bl	8001228 <ssd1306_UpdateScreen>
-		  Button_Scan();
+		Button_Scan();
  80011b6:	f7ff fe1d 	bl	8000df4 <Button_Scan>
  80011ba:	e7fc      	b.n	80011b6 <main+0x4a>
  80011bc:	0800107d 	.word	0x0800107d
@@ -2812,10 +2812,10 @@ void My_Button_Y_Callback(uint8_t Clicked_Count)
  80011d0:	200004ec 	.word	0x200004ec
 
 080011d4 <_Error_Handler>:
-  * @param  file: The file name as string.
-  * @param  line: The line in file as a number.
-  * @retval None
-  */
+ * @param  file: The file name as string.
+ * @param  line: The line in file as a number.
+ * @retval None
+ */
 void _Error_Handler(char *file, int line)
 {
  80011d4:	e7fe      	b.n	80011d4 <_Error_Handler>
