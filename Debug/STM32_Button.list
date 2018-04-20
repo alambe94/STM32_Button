@@ -2772,7 +2772,7 @@ void My_Button_Y_Callback(uint8_t Clicked_Count)
  8001176:	f7ff ff03 	bl	8000f80 <MX_GPIO_Init>
   MX_I2C1_Init();
  800117a:	f7ff ff39 	bl	8000ff0 <MX_I2C1_Init>
-  My_Button_X=Button_Attach(My_Button_Pin,My_Button_GPIO_Port,0,My_Button_X_Callback);
+  My_Button_X=Button_Attach(GPIO_PIN_9,GPIOB,0,My_Button_X_Callback);
  800117e:	4b0f      	ldr	r3, [pc, #60]	; (80011bc <main+0x50>)
  8001180:	2200      	movs	r2, #0
  8001182:	490f      	ldr	r1, [pc, #60]	; (80011c0 <main+0x54>)
@@ -2782,7 +2782,7 @@ void My_Button_Y_Callback(uint8_t Clicked_Count)
   My_Button_Y=Button_Attach(GPIO_PIN_5,GPIOA,1,My_Button_Y_Callback);
  800118e:	2201      	movs	r2, #1
  8001190:	490d      	ldr	r1, [pc, #52]	; (80011c8 <main+0x5c>)
-  My_Button_X=Button_Attach(My_Button_Pin,My_Button_GPIO_Port,0,My_Button_X_Callback);
+  My_Button_X=Button_Attach(GPIO_PIN_9,GPIOB,0,My_Button_X_Callback);
  8001192:	7018      	strb	r0, [r3, #0]
   My_Button_Y=Button_Attach(GPIO_PIN_5,GPIOA,1,My_Button_Y_Callback);
  8001194:	4b0d      	ldr	r3, [pc, #52]	; (80011cc <main+0x60>)

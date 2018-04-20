@@ -107,7 +107,7 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-  My_Button_X=Button_Attach(My_Button_Pin,My_Button_GPIO_Port,0,My_Button_X_Callback);
+  My_Button_X=Button_Attach(GPIO_PIN_9,GPIOB,0,My_Button_X_Callback);
   My_Button_Y=Button_Attach(GPIO_PIN_5,GPIOA,1,My_Button_Y_Callback);
 
 
