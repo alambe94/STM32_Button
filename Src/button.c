@@ -156,7 +156,7 @@ uint8_t Button_Attach(uint16_t Button_Pin, GPIO_TypeDef* Button_Pin_Port,
 
 	GPIO_InitStruct.Pin = Button_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-	if (Button_Pressed_Logic == 0)
+	if (Button_Pressed_Logic == LOW)
 	{
 		GPIO_InitStruct.Pull = GPIO_PULLUP;
 	}
@@ -179,22 +179,38 @@ uint8_t Button_Attach(uint16_t Button_Pin, GPIO_TypeDef* Button_Pin_Port,
 	if (Attached_Buttons > MAX_BUTTONS)
 	{
 		_Error_Handler(__FILE__, __LINE__);
+		//Error
 	}
 	return (Attached_Buttons - 1);
 }
 
 Button_Event_t Button_Get_Status(uint8_t Button)
 {
+	if (Button > Attached_Buttons)
+	{
+		_Error_Handler(__FILE__, __LINE__);
+		//Error
+	}
 	return Button_Array[Button]._Button_Event;
 }
 
 uint8_t Button_Get_Clicked_Count(uint8_t Button)
 {
+	if (Button > Attached_Buttons)
+	{
+		_Error_Handler(__FILE__, __LINE__);
+		//Error
+	}
 	return Button_Array[Button]._Button_Clicked_Count;
 }
 
 void Button_Reset(uint8_t Button)
 {
+	if (Button > Attached_Buttons)
+	{
+		_Error_Handler(__FILE__, __LINE__);
+		//Error
+	}
 	Button_Array[Button]._Button_Clicked_Count = 0;
 	Button_Array[Button]._Button_Event = Button_Idle;
 }

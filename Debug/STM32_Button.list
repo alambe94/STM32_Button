@@ -21,23 +21,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
   8 .ARM.attributes 00000029  00000000  00000000  00020014  2**0
                   CONTENTS, READONLY
-  9 .debug_info   0000fe80  00000000  00000000  0002003d  2**0
+  9 .debug_info   0000fed0  00000000  00000000  0002003d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_abbrev 000023a0  00000000  00000000  0002febd  2**0
+ 10 .debug_abbrev 00002396  00000000  00000000  0002ff0d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00003e40  00000000  00000000  0003225d  2**0
+ 11 .debug_loc    00003e40  00000000  00000000  000322a3  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_aranges 000005d0  00000000  00000000  000360a0  2**3
+ 12 .debug_aranges 000005d0  00000000  00000000  000360e8  2**3
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 00000968  00000000  00000000  00036670  2**3
+ 13 .debug_ranges 00000968  00000000  00000000  000366b8  2**3
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_line   00004749  00000000  00000000  00036fd8  2**0
+ 14 .debug_line   0000474f  00000000  00000000  00037020  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_str    000024d1  00000000  00000000  0003b721  2**0
+ 15 .debug_str    000024d1  00000000  00000000  0003b76f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 16 .comment      0000007c  00000000  00000000  0003dbf2  2**0
+ 16 .comment      0000007c  00000000  00000000  0003dc40  2**0
                   CONTENTS, READONLY
- 17 .debug_frame  00000fd8  00000000  00000000  0003dc70  2**2
+ 17 .debug_frame  00000ff0  00000000  00000000  0003dcbc  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -2316,7 +2316,7 @@ uint8_t Button_Attach(uint16_t Button_Pin, GPIO_TypeDef* Button_Pin_Port,
 
 	GPIO_InitStruct.Pin = Button_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-	if (Button_Pressed_Logic == 0)
+	if (Button_Pressed_Logic == LOW)
  8000ee2:	4691      	mov	r9, r2
 	__HAL_RCC_GPIOD_CLK_ENABLE()
  8000ee4:	f043 0320 	orr.w	r3, r3, #32
@@ -2347,7 +2347,7 @@ uint8_t Button_Attach(uint16_t Button_Pin, GPIO_TypeDef* Button_Pin_Port,
 	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
  8000f1a:	2300      	movs	r3, #0
  8000f1c:	9305      	str	r3, [sp, #20]
-	if (Button_Pressed_Logic == 0)
+	if (Button_Pressed_Logic == LOW)
  8000f1e:	bb2a      	cbnz	r2, 8000f6c <Button_Attach+0xac>
 	{
 		GPIO_InitStruct.Pull = GPIO_PULLUP;
@@ -2405,6 +2405,7 @@ uint8_t Button_Attach(uint16_t Button_Pin, GPIO_TypeDef* Button_Pin_Port,
  8000f58:	21b5      	movs	r1, #181	; 0xb5
  8000f5a:	4808      	ldr	r0, [pc, #32]	; (8000f7c <Button_Attach+0xbc>)
  8000f5c:	f000 f93a 	bl	80011d4 <_Error_Handler>
+		//Error
 	}
 	return (Attached_Buttons - 1);
  8000f60:	7820      	ldrb	r0, [r4, #0]
@@ -2686,124 +2687,123 @@ void My_Button_Y_Callback(uint8_t Clicked_Count)
  80010f8:	0800244c 	.word	0x0800244c
 
 080010fc <HAL_SYSTICK_Callback>:
-{
- 80010fc:	4770      	bx	lr
+	Button_Scan();
+ 80010fc:	f7ff be7a 	b.w	8000df4 <Button_Scan>
 
-080010fe <SystemClock_Config>:
+08001100 <SystemClock_Config>:
 	RCC_OscInitStruct.HSEState = RCC_HSE_ON;
- 80010fe:	f44f 3380 	mov.w	r3, #65536	; 0x10000
+ 8001100:	f44f 3380 	mov.w	r3, #65536	; 0x10000
 {
- 8001102:	b510      	push	{r4, lr}
- 8001104:	b090      	sub	sp, #64	; 0x40
+ 8001104:	b510      	push	{r4, lr}
+ 8001106:	b090      	sub	sp, #64	; 0x40
 	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
- 8001106:	2201      	movs	r2, #1
+ 8001108:	2201      	movs	r2, #1
 	RCC_OscInitStruct.HSEState = RCC_HSE_ON;
- 8001108:	9307      	str	r3, [sp, #28]
+ 800110a:	9307      	str	r3, [sp, #28]
 	RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
- 800110a:	2100      	movs	r1, #0
+ 800110c:	2100      	movs	r1, #0
 	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
- 800110c:	2402      	movs	r4, #2
+ 800110e:	2402      	movs	r4, #2
 	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
- 800110e:	930e      	str	r3, [sp, #56]	; 0x38
+ 8001110:	930e      	str	r3, [sp, #56]	; 0x38
 	RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
- 8001110:	f44f 13e0 	mov.w	r3, #1835008	; 0x1c0000
+ 8001112:	f44f 13e0 	mov.w	r3, #1835008	; 0x1c0000
 	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 8001114:	a806      	add	r0, sp, #24
+ 8001116:	a806      	add	r0, sp, #24
 	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
- 8001116:	9206      	str	r2, [sp, #24]
+ 8001118:	9206      	str	r2, [sp, #24]
 	RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
- 8001118:	9108      	str	r1, [sp, #32]
+ 800111a:	9108      	str	r1, [sp, #32]
 	RCC_OscInitStruct.HSIState = RCC_HSI_ON;
- 800111a:	920a      	str	r2, [sp, #40]	; 0x28
+ 800111c:	920a      	str	r2, [sp, #40]	; 0x28
 	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
- 800111c:	940d      	str	r4, [sp, #52]	; 0x34
+ 800111e:	940d      	str	r4, [sp, #52]	; 0x34
 	RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
- 800111e:	930f      	str	r3, [sp, #60]	; 0x3c
+ 8001120:	930f      	str	r3, [sp, #60]	; 0x3c
 	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 8001120:	f7ff fbe6 	bl	80008f0 <HAL_RCC_OscConfig>
- 8001124:	b100      	cbz	r0, 8001128 <SystemClock_Config+0x2a>
- 8001126:	e7fe      	b.n	8001126 <SystemClock_Config+0x28>
+ 8001122:	f7ff fbe5 	bl	80008f0 <HAL_RCC_OscConfig>
+ 8001126:	b100      	cbz	r0, 800112a <SystemClock_Config+0x2a>
+ 8001128:	e7fe      	b.n	8001128 <SystemClock_Config+0x28>
 	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
- 8001128:	230f      	movs	r3, #15
- 800112a:	9301      	str	r3, [sp, #4]
+ 800112a:	230f      	movs	r3, #15
+ 800112c:	9301      	str	r3, [sp, #4]
 	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
- 800112c:	f44f 6380 	mov.w	r3, #1024	; 0x400
+ 800112e:	f44f 6380 	mov.w	r3, #1024	; 0x400
 	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
- 8001130:	9003      	str	r0, [sp, #12]
+ 8001132:	9003      	str	r0, [sp, #12]
 	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
- 8001132:	9005      	str	r0, [sp, #20]
+ 8001134:	9005      	str	r0, [sp, #20]
 	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
- 8001134:	4621      	mov	r1, r4
- 8001136:	a801      	add	r0, sp, #4
+ 8001136:	4621      	mov	r1, r4
+ 8001138:	a801      	add	r0, sp, #4
 	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
- 8001138:	9402      	str	r4, [sp, #8]
+ 800113a:	9402      	str	r4, [sp, #8]
 	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
- 800113a:	9304      	str	r3, [sp, #16]
+ 800113c:	9304      	str	r3, [sp, #16]
 	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
- 800113c:	f7ff fda0 	bl	8000c80 <HAL_RCC_ClockConfig>
- 8001140:	4604      	mov	r4, r0
- 8001142:	b100      	cbz	r0, 8001146 <SystemClock_Config+0x48>
- 8001144:	e7fe      	b.n	8001144 <SystemClock_Config+0x46>
+ 800113e:	f7ff fd9f 	bl	8000c80 <HAL_RCC_ClockConfig>
+ 8001142:	4604      	mov	r4, r0
+ 8001144:	b100      	cbz	r0, 8001148 <SystemClock_Config+0x48>
+ 8001146:	e7fe      	b.n	8001146 <SystemClock_Config+0x46>
 	HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);
- 8001146:	f7ff fe3f 	bl	8000dc8 <HAL_RCC_GetHCLKFreq>
- 800114a:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
- 800114e:	fbb0 f0f3 	udiv	r0, r0, r3
- 8001152:	f7ff f889 	bl	8000268 <HAL_SYSTICK_Config>
+ 8001148:	f7ff fe3e 	bl	8000dc8 <HAL_RCC_GetHCLKFreq>
+ 800114c:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
+ 8001150:	fbb0 f0f3 	udiv	r0, r0, r3
+ 8001154:	f7ff f888 	bl	8000268 <HAL_SYSTICK_Config>
 	HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
- 8001156:	2004      	movs	r0, #4
- 8001158:	f7ff f89c 	bl	8000294 <HAL_SYSTICK_CLKSourceConfig>
+ 8001158:	2004      	movs	r0, #4
+ 800115a:	f7ff f89b 	bl	8000294 <HAL_SYSTICK_CLKSourceConfig>
 	HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
- 800115c:	4622      	mov	r2, r4
- 800115e:	4621      	mov	r1, r4
- 8001160:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
- 8001164:	f7ff f84c 	bl	8000200 <HAL_NVIC_SetPriority>
+ 800115e:	4622      	mov	r2, r4
+ 8001160:	4621      	mov	r1, r4
+ 8001162:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
+ 8001166:	f7ff f84b 	bl	8000200 <HAL_NVIC_SetPriority>
 }
- 8001168:	b010      	add	sp, #64	; 0x40
- 800116a:	bd10      	pop	{r4, pc}
+ 800116a:	b010      	add	sp, #64	; 0x40
+ 800116c:	bd10      	pop	{r4, pc}
+	...
 
-0800116c <main>:
+08001170 <main>:
 {
- 800116c:	b508      	push	{r3, lr}
+ 8001170:	b508      	push	{r3, lr}
 	HAL_Init();
- 800116e:	f7ff f811 	bl	8000194 <HAL_Init>
+ 8001172:	f7ff f80f 	bl	8000194 <HAL_Init>
 	SystemClock_Config();
- 8001172:	f7ff ffc4 	bl	80010fe <SystemClock_Config>
+ 8001176:	f7ff ffc3 	bl	8001100 <SystemClock_Config>
 	MX_GPIO_Init();
- 8001176:	f7ff ff03 	bl	8000f80 <MX_GPIO_Init>
+ 800117a:	f7ff ff01 	bl	8000f80 <MX_GPIO_Init>
 	MX_I2C1_Init();
- 800117a:	f7ff ff39 	bl	8000ff0 <MX_I2C1_Init>
-	My_Button_X = Button_Attach(GPIO_PIN_9, GPIOB, 0, My_Button_X_Callback);
- 800117e:	4b0f      	ldr	r3, [pc, #60]	; (80011bc <main+0x50>)
- 8001180:	2200      	movs	r2, #0
- 8001182:	490f      	ldr	r1, [pc, #60]	; (80011c0 <main+0x54>)
- 8001184:	f44f 7000 	mov.w	r0, #512	; 0x200
- 8001188:	f7ff fe9a 	bl	8000ec0 <Button_Attach>
- 800118c:	4b0d      	ldr	r3, [pc, #52]	; (80011c4 <main+0x58>)
-	My_Button_Y = Button_Attach(GPIO_PIN_5, GPIOA, 1, My_Button_Y_Callback);
- 800118e:	2201      	movs	r2, #1
- 8001190:	490d      	ldr	r1, [pc, #52]	; (80011c8 <main+0x5c>)
-	My_Button_X = Button_Attach(GPIO_PIN_9, GPIOB, 0, My_Button_X_Callback);
- 8001192:	7018      	strb	r0, [r3, #0]
-	My_Button_Y = Button_Attach(GPIO_PIN_5, GPIOA, 1, My_Button_Y_Callback);
- 8001194:	4b0d      	ldr	r3, [pc, #52]	; (80011cc <main+0x60>)
- 8001196:	2020      	movs	r0, #32
- 8001198:	f7ff fe92 	bl	8000ec0 <Button_Attach>
- 800119c:	4b0c      	ldr	r3, [pc, #48]	; (80011d0 <main+0x64>)
- 800119e:	7018      	strb	r0, [r3, #0]
+ 800117e:	f7ff ff37 	bl	8000ff0 <MX_I2C1_Init>
+	My_Button_X = Button_Attach(GPIO_PIN_9, GPIOB, LOW, My_Button_X_Callback);
+ 8001182:	4b0e      	ldr	r3, [pc, #56]	; (80011bc <main+0x4c>)
+ 8001184:	2200      	movs	r2, #0
+ 8001186:	490e      	ldr	r1, [pc, #56]	; (80011c0 <main+0x50>)
+ 8001188:	f44f 7000 	mov.w	r0, #512	; 0x200
+ 800118c:	f7ff fe98 	bl	8000ec0 <Button_Attach>
+ 8001190:	4b0c      	ldr	r3, [pc, #48]	; (80011c4 <main+0x54>)
+	My_Button_Y = Button_Attach(GPIO_PIN_5, GPIOA, HIGH, My_Button_Y_Callback);
+ 8001192:	2201      	movs	r2, #1
+ 8001194:	490c      	ldr	r1, [pc, #48]	; (80011c8 <main+0x58>)
+	My_Button_X = Button_Attach(GPIO_PIN_9, GPIOB, LOW, My_Button_X_Callback);
+ 8001196:	7018      	strb	r0, [r3, #0]
+	My_Button_Y = Button_Attach(GPIO_PIN_5, GPIOA, HIGH, My_Button_Y_Callback);
+ 8001198:	4b0c      	ldr	r3, [pc, #48]	; (80011cc <main+0x5c>)
+ 800119a:	2020      	movs	r0, #32
+ 800119c:	f7ff fe90 	bl	8000ec0 <Button_Attach>
+ 80011a0:	4b0b      	ldr	r3, [pc, #44]	; (80011d0 <main+0x60>)
+ 80011a2:	7018      	strb	r0, [r3, #0]
 	ssd1306_Init();
- 80011a0:	f000 f870 	bl	8001284 <ssd1306_Init>
+ 80011a4:	f000 f86e 	bl	8001284 <ssd1306_Init>
 	ssd1306_Fill(Black);
- 80011a4:	2000      	movs	r0, #0
- 80011a6:	f000 f831 	bl	800120c <ssd1306_Fill>
+ 80011a8:	2000      	movs	r0, #0
+ 80011aa:	f000 f82f 	bl	800120c <ssd1306_Fill>
 	ssd1306_SetCursor(0, 0);
- 80011aa:	2100      	movs	r1, #0
- 80011ac:	4608      	mov	r0, r1
- 80011ae:	f000 f953 	bl	8001458 <ssd1306_SetCursor>
+ 80011ae:	2100      	movs	r1, #0
+ 80011b0:	4608      	mov	r0, r1
+ 80011b2:	f000 f951 	bl	8001458 <ssd1306_SetCursor>
 	ssd1306_UpdateScreen();
- 80011b2:	f000 f839 	bl	8001228 <ssd1306_UpdateScreen>
-		Button_Scan();
- 80011b6:	f7ff fe1d 	bl	8000df4 <Button_Scan>
- 80011ba:	e7fc      	b.n	80011b6 <main+0x4a>
+ 80011b6:	f000 f837 	bl	8001228 <ssd1306_UpdateScreen>
+ 80011ba:	e7fe      	b.n	80011ba <main+0x4a>
  80011bc:	0800107d 	.word	0x0800107d
  80011c0:	40010c00 	.word	0x40010c00
  80011c4:	200004ed 	.word	0x200004ed
@@ -3561,7 +3561,7 @@ LoopFillZerobss:
  8001586:	f000 f80f 	bl	80015a8 <__libc_init_array>
 /* Call the application's entry point.*/
   bl main
- 800158a:	f7ff fdef 	bl	800116c <main>
+ 800158a:	f7ff fdf1 	bl	8001170 <main>
   bx lr
  800158e:	4770      	bx	lr
   ldr r3, =_sidata

@@ -71,6 +71,7 @@ void My_Button_Y_Callback(uint8_t Clicked_Count);
 /* USER CODE BEGIN 0 */
 void HAL_SYSTICK_Callback()
 {
+	Button_Scan();
 }
 /* USER CODE END 0 */
 
@@ -105,8 +106,8 @@ int main(void)
 	MX_GPIO_Init();
 	MX_I2C1_Init();
 	/* USER CODE BEGIN 2 */
-	My_Button_X = Button_Attach(GPIO_PIN_9, GPIOB, 0, My_Button_X_Callback);
-	My_Button_Y = Button_Attach(GPIO_PIN_5, GPIOA, 1, My_Button_Y_Callback);
+	My_Button_X = Button_Attach(GPIO_PIN_9, GPIOB, LOW, My_Button_X_Callback);
+	My_Button_Y = Button_Attach(GPIO_PIN_5, GPIOA, HIGH, My_Button_Y_Callback);
 
 	ssd1306_Init();
 
@@ -123,7 +124,6 @@ int main(void)
 	{
 
 		/* USER CODE END WHILE */
-		Button_Scan();
 		/* USER CODE BEGIN 3 */
 
 	}
