@@ -19,14 +19,14 @@
 
 typedef struct Button_Struct_t
 {
-	uint16_t _Button_Pin;  //gpio pin to which button is attached
-	GPIO_TypeDef* _Button_Pin_Port;  //gpio port to which button is attached
-	uint8_t _Button_Pressed_Logic; //gpio logic state after gpio is pressed HIGH /  LOW
-	Button_Event_t _Button_Event;
-	uint32_t _Button_Pressed_Ticks;
-	uint32_t _Button_Released_Ticks;
-	uint8_t _Button_Clicked_Count;
-	void (*_Callback)(uint8_t Button_Clicked_Count); //callback function
+	uint16_t Button_Pin;  //gpio pin to which button is attached
+	GPIO_TypeDef* Button_Pin_Port;  //gpio port to which button is attached
+	uint8_t Button_Pressed_Logic; //gpio logic state after gpio is pressed HIGH /  LOW
+	Button_Event_t Button_Event;
+	uint32_t Button_Pressed_Ticks;
+	uint32_t Button_Released_Ticks;
+	uint8_t Button_Clicked_Count;
+	void (*Callback)(uint8_t Button_Clicked_Count); //callback function ptr
 
 } Button_Struct_t;
 
@@ -51,74 +51,74 @@ void Button_Scan()
 		for (uint8_t Index = 0; Index < Attached_Buttons; Index++)
 
 		{
-			if (HAL_GPIO_ReadPin(Button_Array[Index]._Button_Pin_Port,
-					Button_Array[Index]._Button_Pin)
-					== Button_Array[Index]._Button_Pressed_Logic) //pressed detected
+			if (HAL_GPIO_ReadPin(Button_Array[Index].Button_Pin_Port,
+					Button_Array[Index].Button_Pin)
+					== Button_Array[Index].Button_Pressed_Logic) //pressed detected
 
 			{
-				Button_Array[Index]._Button_Pressed_Ticks++;	//
+				Button_Array[Index].Button_Pressed_Ticks++;	//
 
-				if (Button_Array[Index]._Button_Pressed_Ticks
+				if (Button_Array[Index].Button_Pressed_Ticks
 						< BUTTON_LONG_PRESSED_DELAY)
 				{
 
-					if (Button_Array[Index]._Button_Released_Ticks //repressed detected
+					if (Button_Array[Index].Button_Released_Ticks //repressed detected
 					< BUTTON_REPRESSED_DELAY)
 					{
-						Button_Array[Index]._Button_Event = Button_Repressed;
+						Button_Array[Index].Button_Event = Button_Repressed;
 					}
 					else
 					{
-						Button_Array[Index]._Button_Event = Button_Pressed;
+						Button_Array[Index].Button_Event = Button_Pressed;
 					}
 
-					Button_Array[Index]._Button_Released_Ticks = 0;
+					Button_Array[Index].Button_Released_Ticks = 0;
 
 				}
 				else
 				{   //long pressed detected
-					Button_Array[Index]._Button_Event = Button_Long_Pressed;
-					Button_Array[Index]._Button_Clicked_Count = 0xFF; //0xFF for long press
-					if (Button_Array[Index]._Callback != NULL)
+					Button_Array[Index].Button_Event = Button_Long_Pressed;
+					Button_Array[Index].Button_Clicked_Count = 0xFF; //0xFF for long press
+					if (Button_Array[Index].Callback != NULL)
 					{
-						Button_Array[Index]._Callback(
-								Button_Array[Index]._Button_Clicked_Count);
-						Button_Array[Index]._Button_Clicked_Count = 0;
-						Button_Array[Index]._Button_Event = Button_Idle;
+						Button_Array[Index].Callback(
+								Button_Array[Index].Button_Clicked_Count);
+						Button_Array[Index].Button_Clicked_Count = 0;
+						Button_Array[Index].Button_Event = Button_Idle;
 					}
 
 				}
 			}
 			else   //released detected
 			{
-				Button_Array[Index]._Button_Released_Ticks++;
+				Button_Array[Index].Button_Released_Ticks++;
 
-				if (Button_Array[Index]._Button_Pressed_Ticks
+				if (Button_Array[Index].Button_Pressed_Ticks
 						> BUTTON_DEBOUNCE_DELAY) //if button was pressed for BUTTON_DEBOUNCE_DELAY
 				{
-					Button_Array[Index]._Button_Pressed_Ticks = 0;
-					if (Button_Array[Index]._Button_Event == Button_Repressed)
+					Button_Array[Index].Button_Pressed_Ticks = 0;
+					if (Button_Array[Index].Button_Event == Button_Repressed)
 					{
-						Button_Array[Index]._Button_Clicked_Count++;
+						Button_Array[Index].Button_Clicked_Count++;
 					}
-					else if (Button_Array[Index]._Button_Event
+					else if (Button_Array[Index].Button_Event
 							== Button_Pressed)
 					{
-						Button_Array[Index]._Button_Clicked_Count = 1;
+						Button_Array[Index].Button_Clicked_Count = 1;
 					}
 
 				}
 
-				if (Button_Array[Index]._Button_Released_Ticks
+				if (Button_Array[Index].Button_Released_Ticks
 						> BUTTON_CLICKED_DELAY)
 				{
-					if (Button_Array[Index]._Callback != NULL
-							&& Button_Array[Index]._Button_Event != Button_Idle)
+					if (Button_Array[Index].Callback != NULL
+							&& Button_Array[Index].Button_Event != Button_Idle)
 					{
-						Button_Array[Index]._Callback(
-								Button_Array[Index]._Button_Clicked_Count);
-						Button_Array[Index]._Button_Clicked_Count = 0;
-						Button_Array[Index]._Button_Event = Button_Idle;
+						Button_Array[Index].Callback(
+								Button_Array[Index].Button_Clicked_Count);
+						Button_Array[Index].Button_Clicked_Count = 0;
+						Button_Array[Index].Button_Event = Button_Idle;
 
 					}
 				}
@@ -136,9 +136,9 @@ void Button_Init()
 	//init GPIOs
 }
 
-uint8_t Button_Attach(uint16_t Button_Pin, GPIO_TypeDef* Button_Pin_Port,
-		uint8_t Button_Pressed_Logic,
-		void (*Callback)(uint8_t Button_Clicked_Count))
+uint8_t Button_Attach(uint16_t _Button_Pin, GPIO_TypeDef* _Button_Pin_Port,
+		uint8_t _Button_Pressed_Logic,
+		void (*_Callback)(uint8_t _Button_Clicked_Count))
 {
 	//init GPIOs as input
 
@@ -154,9 +154,9 @@ uint8_t Button_Attach(uint16_t Button_Pin, GPIO_TypeDef* Button_Pin_Port,
 	__HAL_RCC_GPIOB_CLK_ENABLE()
 	;
 
-	GPIO_InitStruct.Pin = Button_Pin;
+	GPIO_InitStruct.Pin = _Button_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-	if (Button_Pressed_Logic == LOW)
+	if (_Button_Pressed_Logic == LOW)
 	{
 		GPIO_InitStruct.Pull = GPIO_PULLUP;
 	}
@@ -164,24 +164,24 @@ uint8_t Button_Attach(uint16_t Button_Pin, GPIO_TypeDef* Button_Pin_Port,
 	{
 		GPIO_InitStruct.Pull = GPIO_PULLDOWN;
 	}
-	HAL_GPIO_Init(Button_Pin_Port, &GPIO_InitStruct);
+	HAL_GPIO_Init(_Button_Pin_Port, &GPIO_InitStruct);
 
 
-	Button_Array[Attached_Buttons]._Button_Pin = Button_Pin;
-	Button_Array[Attached_Buttons]._Button_Pin_Port = Button_Pin_Port;
-	Button_Array[Attached_Buttons]._Button_Pressed_Logic = Button_Pressed_Logic;
-	Button_Array[Attached_Buttons]._Callback = Callback;
-	Button_Array[Attached_Buttons]._Button_Clicked_Count = 0;
-	Button_Array[Attached_Buttons]._Button_Event = Button_Idle;
-	Button_Array[Attached_Buttons]._Button_Pressed_Ticks = 0;
-	Button_Array[Attached_Buttons]._Button_Released_Ticks = 0;
+	Button_Array[Attached_Buttons].Button_Pin = _Button_Pin;
+	Button_Array[Attached_Buttons].Button_Pin_Port = _Button_Pin_Port;
+	Button_Array[Attached_Buttons].Button_Pressed_Logic = _Button_Pressed_Logic;
+	Button_Array[Attached_Buttons].Callback = _Callback;
+	Button_Array[Attached_Buttons].Button_Clicked_Count = 0;
+	Button_Array[Attached_Buttons].Button_Event = Button_Idle;
+	Button_Array[Attached_Buttons].Button_Pressed_Ticks = 0;
+	Button_Array[Attached_Buttons].Button_Released_Ticks = 0;
 	Attached_Buttons++;
 	if (Attached_Buttons > MAX_BUTTONS)
 	{
 		_Error_Handler(__FILE__, __LINE__);
 		//Error
 	}
-	return (Attached_Buttons - 1);
+	return (Attached_Buttons - 1);//return button ID
 }
 
 Button_Event_t Button_Get_Status(uint8_t Button)
@@ -191,7 +191,7 @@ Button_Event_t Button_Get_Status(uint8_t Button)
 		_Error_Handler(__FILE__, __LINE__);
 		//Error
 	}
-	return Button_Array[Button]._Button_Event;
+	return Button_Array[Button].Button_Event;
 }
 
 uint8_t Button_Get_Clicked_Count(uint8_t Button)
@@ -201,7 +201,7 @@ uint8_t Button_Get_Clicked_Count(uint8_t Button)
 		_Error_Handler(__FILE__, __LINE__);
 		//Error
 	}
-	return Button_Array[Button]._Button_Clicked_Count;
+	return Button_Array[Button].Button_Clicked_Count;
 }
 
 void Button_Reset(uint8_t Button)
@@ -211,7 +211,7 @@ void Button_Reset(uint8_t Button)
 		_Error_Handler(__FILE__, __LINE__);
 		//Error
 	}
-	Button_Array[Button]._Button_Clicked_Count = 0;
-	Button_Array[Button]._Button_Event = Button_Idle;
+	Button_Array[Button].Button_Clicked_Count = 0;
+	Button_Array[Button].Button_Event = Button_Idle;
 }
 
