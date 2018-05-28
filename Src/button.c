@@ -10,11 +10,11 @@
 
 #define MAX_BUTTONS 3
 
-#define BUTTON_SCAN_TICK 20         // Button_Scan() called every BUTTON_SCAN_TICK
+#define BUTTON_SCAN_TICK 5         // Button_Scan() called every BUTTON_SCAN_TICK
 
 #define BUTTON_DEBOUNCE_DELAY      (50/BUTTON_SCAN_TICK)   //ticks
-#define BUTTON_CLICKED_DELAY       (400/BUTTON_SCAN_TICK)  // confirm clicked in foreground after released for CLICKED_DELAY
-#define BUTTON_REPRESSED_DELAY     (300/BUTTON_SCAN_TICK)  //ticks
+#define BUTTON_CLICKED_DELAY       (200/BUTTON_SCAN_TICK)  // confirm clicked in foreground after released for CLICKED_DELAY
+#define BUTTON_REPRESSED_DELAY     (100/BUTTON_SCAN_TICK)  //ticks
 #define BUTTON_LONG_PRESSED_DELAY  (1000/BUTTON_SCAN_TICK) //ticks
 
 typedef struct Button_Struct_t
@@ -34,6 +34,55 @@ static Button_Struct_t Button_Array[MAX_BUTTONS];
 
 static uint8_t Attached_Buttons = 0;
 
+uint8_t Button_Attach(uint16_t _Button_Pin, GPIO_TypeDef* _Button_Pin_Port,
+		uint8_t _Button_Pressed_Logic,
+		void (*_Callback)(uint8_t _Button_Clicked_Count))
+{
+	//init GPIOs as input
+
+	GPIO_InitTypeDef GPIO_InitStruct;
+
+	/* GPIO Ports Clock Enable */
+	__HAL_RCC_GPIOC_CLK_ENABLE()
+	;
+	__HAL_RCC_GPIOD_CLK_ENABLE()
+	;
+	__HAL_RCC_GPIOA_CLK_ENABLE()
+	;
+	__HAL_RCC_GPIOB_CLK_ENABLE()
+	;
+
+	GPIO_InitStruct.Pin = _Button_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+	if (_Button_Pressed_Logic == LOW)
+	{
+		GPIO_InitStruct.Pull = GPIO_PULLUP;
+	}
+	else
+	{
+		GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+	}
+	HAL_GPIO_Init(_Button_Pin_Port, &GPIO_InitStruct);
+
+
+	Button_Array[Attached_Buttons].Button_Pin = _Button_Pin;
+	Button_Array[Attached_Buttons].Button_Pin_Port = _Button_Pin_Port;
+	Button_Array[Attached_Buttons].Button_Pressed_Logic = _Button_Pressed_Logic;
+	Button_Array[Attached_Buttons].Callback = _Callback;
+	Button_Array[Attached_Buttons].Button_Clicked_Count = 0;
+	Button_Array[Attached_Buttons].Button_Event = Button_Idle;
+	Button_Array[Attached_Buttons].Button_Pressed_Ticks = 0;
+	Button_Array[Attached_Buttons].Button_Released_Ticks = 0;
+	Attached_Buttons++;
+	if (Attached_Buttons > MAX_BUTTONS)
+	{
+		_Error_Handler(__FILE__, __LINE__);
+		//Error
+	}
+	return (Attached_Buttons - 1);//return button ID
+}
+
+
 /*********************************************************
  *
  * called every tick (BUTTON_SCAN_TICK ?)
@@ -48,6 +97,8 @@ void Button_Scan()
 
 	if (HAL_GetTick() - Button_Scan_Time_Stamp > (BUTTON_SCAN_TICK - 1)) // excute this loop on every BUTTON_SCAN_TICK
 	{
+		Button_Scan_Time_Stamp = HAL_GetTick();
+
 		for (uint8_t Index = 0; Index < Attached_Buttons; Index++)
 
 		{
@@ -127,62 +178,9 @@ void Button_Scan()
 
 		}
 
-		Button_Scan_Time_Stamp = HAL_GetTick();
 	}
 }
 
-void Button_Init()
-{
-	//init GPIOs
-}
-
-uint8_t Button_Attach(uint16_t _Button_Pin, GPIO_TypeDef* _Button_Pin_Port,
-		uint8_t _Button_Pressed_Logic,
-		void (*_Callback)(uint8_t _Button_Clicked_Count))
-{
-	//init GPIOs as input
-
-	GPIO_InitTypeDef GPIO_InitStruct;
-
-	/* GPIO Ports Clock Enable */
-	__HAL_RCC_GPIOC_CLK_ENABLE()
-	;
-	__HAL_RCC_GPIOD_CLK_ENABLE()
-	;
-	__HAL_RCC_GPIOA_CLK_ENABLE()
-	;
-	__HAL_RCC_GPIOB_CLK_ENABLE()
-	;
-
-	GPIO_InitStruct.Pin = _Button_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-	if (_Button_Pressed_Logic == LOW)
-	{
-		GPIO_InitStruct.Pull = GPIO_PULLUP;
-	}
-	else
-	{
-		GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-	}
-	HAL_GPIO_Init(_Button_Pin_Port, &GPIO_InitStruct);
-
-
-	Button_Array[Attached_Buttons].Button_Pin = _Button_Pin;
-	Button_Array[Attached_Buttons].Button_Pin_Port = _Button_Pin_Port;
-	Button_Array[Attached_Buttons].Button_Pressed_Logic = _Button_Pressed_Logic;
-	Button_Array[Attached_Buttons].Callback = _Callback;
-	Button_Array[Attached_Buttons].Button_Clicked_Count = 0;
-	Button_Array[Attached_Buttons].Button_Event = Button_Idle;
-	Button_Array[Attached_Buttons].Button_Pressed_Ticks = 0;
-	Button_Array[Attached_Buttons].Button_Released_Ticks = 0;
-	Attached_Buttons++;
-	if (Attached_Buttons > MAX_BUTTONS)
-	{
-		_Error_Handler(__FILE__, __LINE__);
-		//Error
-	}
-	return (Attached_Buttons - 1);//return button ID
-}
 
 Button_Event_t Button_Get_Status(uint8_t Button)
 {

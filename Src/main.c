@@ -185,7 +185,27 @@ void SystemClock_Config(void)
 void My_Button_X_Callback(uint8_t Clicked_Count)
 {
 	char temp[5];
-	//ssd1306_Fill(Black);
+    if(Clicked_Count==1)
+    {
+    // once clicked
+    }
+    if(Clicked_Count==2)
+    {
+    // double clicked
+    }
+    if(Clicked_Count==3)
+    {
+    // Triple clicked
+    }
+    if(Clicked_Count==4)
+    {
+    // four times clicked
+    }
+    //upto 254 clicked
+    if(Clicked_Count==0xFF)	//long pressed
+    {
+
+    }
 	ssd1306_SetCursor(0, 30);
 	itoa(Clicked_Count, temp, 10);
 	ssd1306_WriteString("BTN_X:", Font_11x18, White);
@@ -196,7 +216,28 @@ void My_Button_X_Callback(uint8_t Clicked_Count)
 void My_Button_Y_Callback(uint8_t Clicked_Count)
 {
 	char temp[5];
-	//ssd1306_Fill(Black);
+    if(Clicked_Count==1)
+    {
+    // once clicked
+    }
+    if(Clicked_Count==2)
+    {
+    // double clicked
+    }
+    if(Clicked_Count==3)
+    {
+    // Triple clicked
+    }
+    if(Clicked_Count==4)
+    {
+    // four times clicked
+    }
+    //upto 254 clicked
+    if(Clicked_Count==0xFF)	//long pressed
+    {
+
+    }
+
 	ssd1306_SetCursor(0, 0);
 	itoa(Clicked_Count, temp, 10);
 	ssd1306_WriteString("BTN_Y:", Font_11x18, White);
