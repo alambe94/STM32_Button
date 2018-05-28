@@ -53,8 +53,8 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-uint8_t My_Button_X;
-uint8_t My_Button_Y;
+Button_t My_Button_X;
+Button_t My_Button_Y;
 
 /* USER CODE END PV */
 

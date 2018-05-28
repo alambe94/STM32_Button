@@ -21,23 +21,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
   8 .ARM.attributes 00000029  00000000  00000000  00020014  2**0
                   CONTENTS, READONLY
-  9 .debug_info   0000fec2  00000000  00000000  0002003d  2**0
+  9 .debug_info   0000fed8  00000000  00000000  0002003d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_abbrev 00002380  00000000  00000000  0002feff  2**0
+ 10 .debug_abbrev 00002380  00000000  00000000  0002ff15  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00003e40  00000000  00000000  0003227f  2**0
+ 11 .debug_loc    00003e40  00000000  00000000  00032295  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_aranges 000005c8  00000000  00000000  000360c0  2**3
+ 12 .debug_aranges 000005c8  00000000  00000000  000360d8  2**3
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 00000960  00000000  00000000  00036688  2**3
+ 13 .debug_ranges 00000960  00000000  00000000  000366a0  2**3
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_line   00004739  00000000  00000000  00036fe8  2**0
+ 14 .debug_line   00004739  00000000  00000000  00037000  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_str    000024c1  00000000  00000000  0003b721  2**0
+ 15 .debug_str    000024ca  00000000  00000000  0003b739  2**0
                   CONTENTS, READONLY, DEBUGGING
- 16 .comment      0000007c  00000000  00000000  0003dbe2  2**0
+ 16 .comment      0000007c  00000000  00000000  0003dc03  2**0
                   CONTENTS, READONLY
- 17 .debug_frame  00000fdc  00000000  00000000  0003dc60  2**2
+ 17 .debug_frame  00000fdc  00000000  00000000  0003dc80  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -2134,7 +2134,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __NOP(void)
  8000df0:	20000010 	.word	0x20000010
 
 08000df4 <Button_Attach>:
-static uint8_t Attached_Buttons = 0;
+static Button_t Attached_Buttons = 0;
 
 uint8_t Button_Attach(uint16_t _Button_Pin, GPIO_TypeDef* _Button_Pin_Port,
 		uint8_t _Button_Pressed_Logic,
@@ -2242,9 +2242,11 @@ uint8_t Button_Attach(uint16_t _Button_Pin, GPIO_TypeDef* _Button_Pin_Port,
  8000e74:	60c3      	str	r3, [r0, #12]
 	Button_Array[Attached_Buttons].Button_Released_Ticks = 0;
  8000e76:	6103      	str	r3, [r0, #16]
+
 	Attached_Buttons++;
  8000e78:	1c4b      	adds	r3, r1, #1
  8000e7a:	b2db      	uxtb	r3, r3
+
 	if (Attached_Buttons > MAX_BUTTONS)
  8000e7c:	2b03      	cmp	r3, #3
 	Button_Array[Attached_Buttons].Button_Pin_Port = _Button_Pin_Port;
@@ -2259,7 +2261,7 @@ uint8_t Button_Attach(uint16_t _Button_Pin, GPIO_TypeDef* _Button_Pin_Port,
  8000e8a:	d903      	bls.n	8000e94 <Button_Attach+0xa0>
 	{
 		_Error_Handler(__FILE__, __LINE__);
- 8000e8c:	214f      	movs	r1, #79	; 0x4f
+ 8000e8c:	2152      	movs	r1, #82	; 0x52
  8000e8e:	4808      	ldr	r0, [pc, #32]	; (8000eb0 <Button_Attach+0xbc>)
  8000e90:	f000 f99e 	bl	80011d0 <_Error_Handler>
 		//Error

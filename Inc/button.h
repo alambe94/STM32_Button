@@ -13,6 +13,8 @@
 #define HIGH 1
 #define LOW  0
 
+typedef  uint8_t Button_t;
+
 typedef enum Button_Event_t
 {
 	Button_Idle=0,

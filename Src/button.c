@@ -30,9 +30,10 @@ typedef struct Button_Struct_t
 
 } Button_Struct_t;
 
+
 static Button_Struct_t Button_Array[MAX_BUTTONS];
 
-static uint8_t Attached_Buttons = 0;
+static Button_t Attached_Buttons = 0;
 
 uint8_t Button_Attach(uint16_t _Button_Pin, GPIO_TypeDef* _Button_Pin_Port,
 		uint8_t _Button_Pressed_Logic,
@@ -73,7 +74,9 @@ uint8_t Button_Attach(uint16_t _Button_Pin, GPIO_TypeDef* _Button_Pin_Port,
 	Button_Array[Attached_Buttons].Button_Event = Button_Idle;
 	Button_Array[Attached_Buttons].Button_Pressed_Ticks = 0;
 	Button_Array[Attached_Buttons].Button_Released_Ticks = 0;
+
 	Attached_Buttons++;
+
 	if (Attached_Buttons > MAX_BUTTONS)
 	{
 		_Error_Handler(__FILE__, __LINE__);
@@ -182,7 +185,7 @@ void Button_Scan()
 }
 
 
-Button_Event_t Button_Get_Status(uint8_t Button)
+Button_Event_t Button_Get_Status(Button_t Button)
 {
 	if (Button > Attached_Buttons)
 	{
@@ -192,7 +195,7 @@ Button_Event_t Button_Get_Status(uint8_t Button)
 	return Button_Array[Button].Button_Event;
 }
 
-uint8_t Button_Get_Clicked_Count(uint8_t Button)
+uint8_t Button_Get_Clicked_Count(Button_t Button)
 {
 	if (Button > Attached_Buttons)
 	{
@@ -202,7 +205,7 @@ uint8_t Button_Get_Clicked_Count(uint8_t Button)
 	return Button_Array[Button].Button_Clicked_Count;
 }
 
-void Button_Reset(uint8_t Button)
+void Button_Reset(Button_t Button)
 {
 	if (Button > Attached_Buttons)
 	{
