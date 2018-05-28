@@ -33,7 +33,7 @@ typedef struct Button_Struct_t
 
 static Button_Struct_t Button_Array[MAX_BUTTONS];
 
-static Button_t Attached_Buttons = 0;
+static uint8_t Attached_Buttons = 0;
 
 uint8_t Button_Attach(uint16_t _Button_Pin, GPIO_TypeDef* _Button_Pin_Port,
 		uint8_t _Button_Pressed_Logic,

@@ -2134,7 +2134,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __NOP(void)
  8000df0:	20000010 	.word	0x20000010
 
 08000df4 <Button_Attach>:
-static Button_t Attached_Buttons = 0;
+static uint8_t Attached_Buttons = 0;
 
 uint8_t Button_Attach(uint16_t _Button_Pin, GPIO_TypeDef* _Button_Pin_Port,
 		uint8_t _Button_Pressed_Logic,
