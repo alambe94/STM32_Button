@@ -13,8 +13,6 @@
 #define HIGH 1
 #define LOW  0
 
-typedef  uint8_t Button_t;
-
 typedef enum Button_Event_t
 {
 	Button_Idle=0,
@@ -24,12 +22,25 @@ typedef enum Button_Event_t
 }Button_Event_t;
 
 
+
+typedef struct Button_Struct_t
+{
+	uint16_t Button_Pin;  //gpio pin to which button is attached
+	GPIO_TypeDef* Button_Pin_Port;  //gpio port to which button is attached
+	uint8_t Button_Pressed_Logic; //gpio logic state after gpio is pressed HIGH /  LOW
+	Button_Event_t Button_Event;
+	uint32_t Button_Pressed_Ticks;
+	uint32_t Button_Released_Ticks;
+	uint8_t Button_Clicked_Count;
+	void (*Callback)(uint8_t Button_Clicked_Count); //callback function ptr
+
+} Button_Struct_t;
+
 void Button_Scan();
-uint8_t Button_Get_Clicked_Count(uint8_t Button);
-Button_Event_t Button_Get_Status(uint8_t Button);
-void Button_Reset(uint8_t Button);
-uint8_t Button_Attach(uint16_t Button_Pin, GPIO_TypeDef* Button_Pin_Port,uint8_t Button_Pressed_Logic,
-		void (*Callback)(uint8_t Button_Clicked_Count));
+uint8_t Button_Get_Clicked_Count(Button_Struct_t* PTR);
+Button_Event_t Button_Get_Status(Button_Struct_t* PTR);
+void Button_Reset(Button_Struct_t* PTR);
+uint8_t Button_Attach(Button_Struct_t*  Button_Struct_t_PTR);
 
 
 

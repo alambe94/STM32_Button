@@ -53,8 +53,6 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-Button_t My_Button_X;
-Button_t My_Button_Y;
 
 /* USER CODE END PV */
 
@@ -106,8 +104,21 @@ int main(void)
 	MX_GPIO_Init();
 	MX_I2C1_Init();
 	/* USER CODE BEGIN 2 */
-	My_Button_X = Button_Attach(GPIO_PIN_9, GPIOB, LOW, My_Button_X_Callback);
-	My_Button_Y = Button_Attach(GPIO_PIN_5, GPIOA, HIGH, My_Button_Y_Callback);
+
+	Button_Struct_t My_Button_X;
+	My_Button_X.Button_Pin = GPIO_PIN_9;
+	My_Button_X.Button_Pin_Port = GPIOB;
+	My_Button_X.Button_Pressed_Logic = LOW;
+	My_Button_X.Callback = My_Button_X_Callback;
+	Button_Attach(&My_Button_X);
+
+	Button_Struct_t My_Button_Y;
+	My_Button_Y.Button_Pin = GPIO_PIN_5;
+	My_Button_Y.Button_Pin_Port = GPIOA;
+	My_Button_Y.Button_Pressed_Logic = HIGH;
+	My_Button_Y.Callback = My_Button_X_Callback;
+	Button_Attach(&My_Button_Y);
+
 
 	ssd1306_Init();
 
