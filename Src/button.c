@@ -13,8 +13,8 @@
 #define BUTTON_SCAN_TICK 5         // Button_Scan() called every BUTTON_SCAN_TICK
 
 #define BUTTON_DEBOUNCE_DELAY      (50/BUTTON_SCAN_TICK)   //ticks
-#define BUTTON_CLICKED_DELAY       (200/BUTTON_SCAN_TICK)  // confirm clicked in foreground after released for CLICKED_DELAY
-#define BUTTON_REPRESSED_DELAY     (100/BUTTON_SCAN_TICK)  //ticks
+#define BUTTON_CLICKED_DELAY       (250/BUTTON_SCAN_TICK)  //delay between button released event and call to callback function
+#define BUTTON_REPRESSED_DELAY     (200/BUTTON_SCAN_TICK)  //ticks
 #define BUTTON_LONG_PRESSED_DELAY  (1000/BUTTON_SCAN_TICK) //ticks
 
 
