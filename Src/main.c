@@ -69,7 +69,6 @@ void My_Button_Y_Callback(uint8_t Clicked_Count);
 /* USER CODE BEGIN 0 */
 void HAL_SYSTICK_Callback()
 {
-	Button_Scan();
 }
 /* USER CODE END 0 */
 
@@ -116,7 +115,7 @@ int main(void)
 	My_Button_Y.Button_Pin = GPIO_PIN_5;
 	My_Button_Y.Button_Pin_Port = GPIOA;
 	My_Button_Y.Button_Pressed_Logic = HIGH;
-	My_Button_Y.Callback = My_Button_X_Callback;
+	My_Button_Y.Callback = My_Button_Y_Callback;
 	Button_Attach(&My_Button_Y);
 
 
@@ -136,6 +135,7 @@ int main(void)
 
 		/* USER CODE END WHILE */
 		/* USER CODE BEGIN 3 */
+			Button_Scan();
 
 	}
 	/* USER CODE END 3 */
