@@ -8,7 +8,7 @@
 #ifndef BUTTON_H_
 #define BUTTON_H_
 
-#include"stm32f1xx_hal.h"
+#include "stm32f1xx_hal.h"
 
 #define HIGH 1
 #define LOW  0
@@ -31,7 +31,8 @@ typedef struct Button_Struct_t
 	Button_Event_t Button_Event;
 	uint32_t Button_Pressed_Ticks;
 	uint32_t Button_Released_Ticks;
-	uint8_t Button_Clicked_Count;
+	uint8_t Button_Clicked_Count; // used in Callback
+	uint8_t Button_Count_Captured;         // used in Button_Get_Clicked_Count
 	void (*Callback)(uint8_t Button_Clicked_Count); //callback function ptr
 
 } Button_Struct_t;
