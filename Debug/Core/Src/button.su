@@ -1,0 +1,5 @@
+button.c:19:9:Button_Add	16	static
+button.c:49:6:Button_Loop	32	static
+button.c:129:16:Button_Get_Status	0	static
+button.c:138:9:Button_Get_Clicked_Count	0	static
+button.c:154:6:Button_Reset_Count	0	static
