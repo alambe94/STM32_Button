@@ -25,7 +25,8 @@ int __io_putchar(int ch)
 
 void Button_A_Init()
 {
-    //see gpio.c B1
+    // enable clock, configure as gpio as input
+    // configured in cube @see gpio.c
 }
 void Button_B_Init()
 { //not used
